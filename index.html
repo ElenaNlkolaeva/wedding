@@ -35,16 +35,23 @@
         }
         .btn:hover { background: #b02557; }
     </style>
+    <script>
+        function getGuestName() {
+            const params = new URLSearchParams(window.location.search);
+            const guestName = params.get('guest') || 'Дорогой гость';
+            document.getElementById('guest-name').textContent = guestName;
+        }
+    </script>
 </head>
-<body>
+<body onload="getGuestName()">
     <div class="container">
         <h1>Приглашение на свадьбу</h1>
-        <p><strong>Дорогой(ая) [Имя Гостя],</strong></p>
+        <p><strong id="guest-name">Дорогой(ая) гость(я)</strong>,</p>
         <p>С огромной радостью приглашаем тебя на нашу свадьбу!</p>
         <p><strong>Дата:</strong> 8 августа 2025 года</p>
         <p><strong>Место:</strong> Москва, Красная площадь</p>
         <p>Мы будем счастливы, если ты разделишь этот важный день с нами!</p>
-        <a href="https://maps.google.com/?q=Москва,Красная+площадь" class="btn">Открыть локацию</a>
+        <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn">Открыть локацию</a>
         <p>С любовью, Иван и Ольга ❤️</p>
     </div>
 </body>
