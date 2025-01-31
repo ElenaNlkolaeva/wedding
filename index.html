@@ -8,24 +8,25 @@
         body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            background: url('https://source.unsplash.com/1600x900/?wedding,flowers') no-repeat center center/cover;
-            color: #333;
+            background: url('https://source.unsplash.com/1600x900/?wedding,greenery') no-repeat center center/cover;
+            color: #2F4F2F;
             padding: 50px 20px;
         }
         .container {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 15px;
             max-width: 600px;
             margin: auto;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #8FBC8F;
         }
-        h1 { color: #d6336c; font-size: 32px; }
+        h1 { color: #6B8E23; font-size: 32px; }
         p { font-size: 18px; }
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background: #d6336c;
+            background: #8FBC8F;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
@@ -33,20 +34,27 @@
             margin-top: 20px;
             transition: 0.3s;
         }
-        .btn:hover { background: #b02557; }
+        .btn:hover { background: #6B8E23; }
     </style>
     <script>
         function getGuestName() {
             const params = new URLSearchParams(window.location.search);
             const guestName = params.get('guest') || 'Дорогой гость';
-            document.getElementById('guest-name').textContent = guestName;
+            const gender = params.get('gender');
+            
+            let prefix = 'Дорогой';
+            if (gender === 'female') {
+                prefix = 'Дорогая';
+            }
+            
+            document.getElementById('guest-name').textContent = `${prefix} ${guestName},`;
         }
     </script>
 </head>
 <body onload="getGuestName()">
     <div class="container">
         <h1>Приглашение на свадьбу</h1>
-        <p><strong id="guest-name">Дорогой(ая) гость(я)</strong>,</p>
+        <p><strong id="guest-name">Дорогой(ая) гость(я)</strong></p>
         <p>С огромной радостью приглашаем тебя на нашу свадьбу!</p>
         <p><strong>Дата:</strong> 8 августа 2025 года</p>
         <p><strong>Место:</strong> Москва, Красная площадь</p>
