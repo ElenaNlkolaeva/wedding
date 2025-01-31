@@ -41,11 +41,14 @@
     <script>
         function getGuestName() {
             const params = new URLSearchParams(window.location.search);
-            const guestName = params.get('guest') || 'Дорогой гость';
+            const guestName = params.get('guest') || 'Дорогие гости';
             const gender = params.get('gender');
+            const family = params.get('family');
             
             let prefix = 'Дорогой';
-            if (gender === 'female') {
+            if (family === 'yes') {
+                prefix = 'Дорогие';
+            } else if (gender === 'female') {
                 prefix = 'Дорогая';
             }
             
@@ -56,11 +59,12 @@
 <body onload="getGuestName()">
     <div class="container">
         <h1>Приглашение на свадьбу</h1>
-        <p><strong id="guest-name">Дорогой(ая) гость(я)</strong></p>
-        <p>С огромной радостью приглашаем тебя на нашу свадьбу!</p>
+        <p><strong id="guest-name">Дорогие гости</strong></p>
+        <p>С огромной радостью приглашаем вас на нашу свадьбу!</p>
         <p><strong>Дата:</strong> 8 августа 2025 года</p>
+        <p><strong>Время:</strong> 11:11</p>
         <p><strong>Место:</strong> Москва, Красная площадь</p>
-        <p>Мы будем счастливы, если ты разделишь этот важный день с нами!</p>
+        <p>Мы будем счастливы, если вы разделите этот важный день с нами!</p>
         <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn">Открыть локацию</a>
         <p>С любовью, Иван и Ольга ❤️</p>
     </div>
