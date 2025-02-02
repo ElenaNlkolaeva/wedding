@@ -7,17 +7,26 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kurale&display=swap');
 
+    /* Сброс размеров и боксовая модель */
+    * {
+      box-sizing: border-box;
+      margin: 0;  /* Обнуляем дефолтные margin */
+      padding: 0; /* Обнуляем дефолтные padding */
+    }
+
     /* Стили BODY */
-    body {
-      margin: 0;
-      padding: 20px;
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden; /* Прячем горизонтальную прокрутку, если что-то может «вылазить» */
       text-align: center;
       font-family: 'Kurale', serif;
       color: #2F4F2F;
-      background-image: url('background-flowers-1.jpg'); /* Убедитесь, что файл так и называется */
+      /* Фон */
+      background-image: url('background-flowers-1.jpg'); /* Проверьте, что файл действительно так называется */
       background-size: cover;
       background-position: center;
-      background-attachment: fixed; /* Чтобы фон не прокручивался */
+      background-attachment: fixed; /* Можно убрать, если на мобильных будет глючить */
     }
 
     /* Контейнер приглашения */
@@ -25,17 +34,19 @@
       background: rgba(255, 255, 255, 0.9); /* чуть прозрачнее, чтобы сквозь неё был виден фейерверк */
       padding: 40px;
       border-radius: 20px;
-      max-width: 90%;
-      width: 700px;
-      margin: 60px auto;
+      max-width: 700px;       /* Максимальная ширина в px */
+      width: 90%;            /* Процентная ширина (чтобы адаптивно сжиматься) */
+      margin: 60px auto;     /* Авто-выравнивание по центру + отступ сверху/снизу */
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       border: 4px solid #A2C4A6;
       position: relative;
     }
+
+    /* Медиазапрос: на экранах до 768px меняем размеры */
     @media (max-width: 768px) {
       .container {
-        width: 95%;
         padding: 30px;
+        margin: 30px auto;
       }
       h1 {
         font-size: 48px;
@@ -59,6 +70,7 @@
       font-family: 'Great Vibes', cursive;
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
       margin-top: 0;
+      margin-bottom: 20px;
     }
 
     /* Обычный текст */
@@ -125,10 +137,10 @@
     <p><strong id="guest-name"></strong></p>
 
     <!-- 1-я фраза ("С огромной радостью...") -->
-    <p id="invite-line-1"> </p>
+    <p id="invite-line-1"></p>
 
     <!-- 2-я фраза ("Мы будем счастливы...") -->
-    <p id="invite-line-2"> </p>
+    <p id="invite-line-2"></p>
 
     <!-- Дата и место с переносами строки -->
     <p>
@@ -191,7 +203,7 @@
       const line2 = document.getElementById('invite-line-2');
 
       if (isFamily) {
-        // Семья
+        // Семья => "вас", "вы"
         line1.textContent = 'С огромной радостью приглашаем вас на нашу свадьбу!';
         line2.textContent = 'Мы будем счастливы, если вы разделите этот важный день с нами!';
       } else {
