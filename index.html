@@ -13,7 +13,7 @@
             background-color: #f8f8f8;
             color: #2F4F2F;
             padding: 20px;
-            background-image: url('flowers-background-1.jpg');
+            background-image: url('flowers-background.jpg');
             background-size: cover;
             background-position: center;
             margin: 0;
@@ -90,46 +90,19 @@
             text-align: left;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .fireworks {
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: -1;
         }
     </style>
-    <script>
-        function getGuestName() {
-            const params = new URLSearchParams(window.location.search);
-            const guestName = params.get('guest') || 'Дорогие гости';
-            const gender = params.get('gender');
-            const family = params.get('family');
-            
-            let prefix = 'Дорогой';
-            if (family === 'yes') {
-                prefix = 'Дорогие';
-            } else if (gender === 'female') {
-                prefix = 'Дорогая';
-            }
-            
-            document.getElementById('guest-name').textContent = `${prefix} ${guestName},`;
-        }
-        
-        function toggleSchedule() {
-            const schedule = document.getElementById('schedule');
-            if (schedule.style.display === 'none' || schedule.style.display === '') {
-                schedule.style.display = 'block';
-            } else {
-                schedule.style.display = 'none';
-            }
-        }
-    </script>
 </head>
 <body onload="getGuestName()">
-    <div class="fireworks">
-        <iframe src="https://codepen.io/juliangarnier/full/ZeKrrZ/" width="100%" height="100%" frameborder="0"></iframe>
-    </div>
+    <canvas id="fireworks"></canvas>
     <div class="container">
         <h1>Приглашение на свадьбу</h1>
         <p><strong id="guest-name">Дорогие гости</strong></p>
@@ -147,5 +120,33 @@
         </div>
         <p>С любовью, Иван и Ольга ❤️</p>
     </div>
+    <script>
+        function getGuestName() {
+            const params = new URLSearchParams(window.location.search);
+            const guestName = params.get('guest') || 'Дорогие гости';
+            document.getElementById('guest-name').textContent = `Дорогие ${guestName},`;
+        }
+        function toggleSchedule() {
+            const schedule = document.getElementById('schedule');
+            schedule.style.display = (schedule.style.display === 'none' || schedule.style.display === '') ? 'block' : 'none';
+        }
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        function drawFirework(x, y) {
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.8)';
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random() * 5 + 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        function launchFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height / 2);
+            drawFirework(x, y);
+            setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 500);
+        }
+        setInterval(launchFirework, 1000);
+    </script>
 </body>
 </html>
