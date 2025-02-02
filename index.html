@@ -1,152 +1,249 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Свадебное приглашение</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kurale&display=swap');
-        
-        body {
-            font-family: 'Kurale', serif;
-            text-align: center;
-            background-color: #f8f8f8;
-            color: #2F4F2F;
-            padding: 20px;
-            background-image: url('flowers-background-1.jpg');
-            background-size: cover;
-            background-position: center;
-            margin: 0;
-            overflow-x: hidden;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 90%;
-            width: 700px;
-            margin: auto;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            border: 4px solid #A2C4A6;
-            position: relative;
-            overflow: hidden;
-        }
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 30px;
-            }
-            h1 {
-                font-size: 48px;
-            }
-            p {
-                font-size: 24px;
-            }
-            .btn {
-                font-size: 22px;
-                padding: 12px 24px;
-            }
-            .schedule {
-                font-size: 22px;
-            }
-        }
-        h1 {
-            color: #6B8E23;
-            font-size: 64px;
-            font-family: 'Great Vibes', cursive;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        p {
-            font-size: 28px;
-            line-height: 1.6;
-        }
-        .btn {
-            display: inline-block;
-            padding: 16px 32px;
-            background: #A2C4A6;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 28px;
-            margin-top: 20px;
-            transition: 0.3s;
-            cursor: pointer;
-            font-family: 'Kurale', serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            border: 2px solid #6B8E23;
-        }
-        .btn:hover {
-            background: #6B8E23;
-            transform: scale(1.05);
-        }
-        .schedule {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            border: 3px solid #A2C4A6;
-            font-size: 26px;
-            text-align: left;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Свадебное приглашение</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kurale&display=swap');
+
+    /* Стили BODY */
+    body {
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      font-family: 'Kurale', serif;
+      color: #2F4F2F;
+      background-image: url('flowers-background.jpg'); /* Убедитесь, что файл действительно называется именно так */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed; /* Чтобы фон не прокручивался (по желанию) */
+    }
+
+    /* Контейнер приглашения */
+    .container {
+      background: rgba(255, 255, 255, 0.9); /* чуть прозрачнее, чтобы сквозь неё можно было видеть фейерверк */
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 90%;
+      width: 700px;
+      margin: 60px auto;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      border: 4px solid #A2C4A6;
+      position: relative;
+    }
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 30px;
+      }
+      h1 {
+        font-size: 48px;
+      }
+      p {
+        font-size: 24px;
+      }
+      .btn {
+        font-size: 22px;
+        padding: 12px 24px;
+      }
+      .schedule {
+        font-size: 22px;
+      }
+    }
+
+    /* Заголовок */
+    h1 {
+      color: #6B8E23;
+      font-size: 64px;
+      font-family: 'Great Vibes', cursive;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      margin-top: 0;
+    }
+
+    /* Обычный текст */
+    p {
+      font-size: 28px;
+      line-height: 1.6;
+    }
+
+    /* Кнопки */
+    .btn {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #A2C4A6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 28px;
+      margin-top: 20px;
+      transition: 0.3s;
+      cursor: pointer;
+      font-family: 'Kurale', serif;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 2px solid #6B8E23;
+    }
+    .btn:hover {
+      background: #6B8E23;
+      transform: scale(1.05);
+    }
+
+    /* Программа мероприятия */
+    .schedule {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      border: 3px solid #A2C4A6;
+      font-size: 26px;
+      text-align: left;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Канвас фейерверка */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999; /* Чтобы канвас был поверх всего */
+    }
+  </style>
 </head>
 <body onload="getGuestName()">
-    <canvas id="fireworks"></canvas>
-    <div class="container">
-        <h1>Приглашение на свадьбу</h1>
-        <p><strong id="guest-name">Дорогие гости</strong></p>
-        <p>С огромной радостью приглашаем вас на нашу свадьбу!</p>
-        <p><strong>Дата:</strong> 8 августа 2025 года</p>
-        <p><strong>Место:</strong> Москва, Красная площадь</p>
-        <p>Мы будем счастливы, если вы разделите этот важный день с нами!</p>
-        <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn">Открыть локацию</a>
-        <br>
-        <button class="btn" onclick="toggleSchedule()">Программа мероприятия</button>
-        <div id="schedule" class="schedule">
-            <p><strong>14:30</strong> - сбор гостей у ЗАГСа</p>
-            <p><strong>15:00</strong> - регистрация</p>
-            <p><strong>15:15 - 16:00</strong> - праздничный фуршет</p>
-        </div>
-        <p>С любовью, Иван и Ольга ❤️</p>
+  <!-- Канвас для фейерверка -->
+  <canvas id="fireworks"></canvas>
+
+  <div class="container">
+    <h1>Приглашение на свадьбу</h1>
+    <p><strong id="guest-name">Дорогие гости</strong></p>
+    <p>С огромной радостью приглашаем вас на нашу свадьбу!</p>
+    <p><strong>Дата:</strong> 8 августа 2025 года</p>
+    <p><strong>Место:</strong> Москва, Красная площадь</p>
+    <p>Мы будем счастливы, если вы разделите этот важный день с нами!</p>
+
+    <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn" target="_blank">Открыть локацию</a>
+    <br>
+    <button class="btn" onclick="toggleSchedule()">Программа мероприятия</button>
+
+    <div id="schedule" class="schedule">
+      <p><strong>14:30</strong> - сбор гостей у ЗАГСа</p>
+      <p><strong>15:00</strong> - регистрация</p>
+      <p><strong>15:15 - 16:00</strong> - праздничный фуршет</p>
     </div>
-    <script>
-        function getGuestName() {
-            const params = new URLSearchParams(window.location.search);
-            const guestName = params.get('guest') || 'Дорогие гости';
-            document.getElementById('guest-name').textContent = `Дорогие ${guestName},`;
+
+    <p>С любовью, Иван и Ольга ❤️</p>
+  </div>
+
+  <script>
+    // Меняем текст "Дорогие гости" на имя, если передано ?guest=...
+    function getGuestName() {
+      const params = new URLSearchParams(window.location.search);
+      const guestName = params.get('guest') || 'Дорогие гости';
+      document.getElementById('guest-name').textContent = `Дорогие ${guestName},`;
+    }
+
+    // Показать / скрыть программу мероприятия
+    function toggleSchedule() {
+      const schedule = document.getElementById('schedule');
+      schedule.style.display =
+        (schedule.style.display === 'none' || schedule.style.display === '')
+        ? 'block'
+        : 'none';
+    }
+
+    // ------------------ Фейерверк ------------------
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+
+    // Устанавливаем размер канваса на весь экран
+    function setCanvasSize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize);
+
+    // Массив всех "залпов" фейерверка (каждый залп — это несколько частиц)
+    let fireworks = [];
+
+    function createFirework() {
+      // Случайная точка, откуда "взрывается" фейерверк (верхняя половина экрана)
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * (canvas.height / 2);
+
+      const particleCount = 25 + Math.floor(Math.random() * 15); // от 25 до ~40 частиц
+      const newParticles = [];
+
+      // Выбираем случайный цвет в формате HSL
+      const hue = Math.floor(Math.random() * 360);
+
+      for (let i = 0; i < particleCount; i++) {
+        const angle = Math.random() * Math.PI * 2; // 0..2PI
+        const speed = Math.random() * 5 + 2;       // 2..7
+        const dx = Math.cos(angle) * speed;
+        const dy = Math.sin(angle) * speed;
+
+        newParticles.push({
+          x,
+          y,
+          dx,
+          dy,
+          // Цвет в формате HSL, где 50% яркость, 100% насыщенность
+          color: `hsl(${hue}, 100%, 50%)`,
+          alpha: 1,          // прозрачноcть
+          life: 40 + Math.random() * 30, // "жизнь" частицы
+        });
+      }
+
+      fireworks.push(newParticles);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Стираем старое
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Для каждого залпа обрабатываем частицы
+      fireworks.forEach((particles, index) => {
+        particles.forEach((p) => {
+          // Движение
+          p.x += p.dx;
+          p.y += p.dy;
+          // Лёгкая "гравитация", чтобы частицы падали вниз
+          p.dy += 0.02;
+
+          // Уменьшение прозрачности
+          p.alpha -= 1 / p.life; // с каждым кадром частица блекнет
+
+          // Рисуем частицу
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Убираем "мёртвые" частицы (alpha <= 0)
+        fireworks[index] = particles.filter((p) => p.alpha > 0);
+        // Если в залпе все частицы исчезли — удаляем залп
+        if (fireworks[index].length === 0) {
+          fireworks.splice(index, 1);
         }
-        function toggleSchedule() {
-            const schedule = document.getElementById('schedule');
-            schedule.style.display = (schedule.style.display === 'none' || schedule.style.display === '') ? 'block' : 'none';
-        }
-        const canvas = document.getElementById('fireworks');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        function drawFirework(x, y) {
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.8)';
-            ctx.beginPath();
-            ctx.arc(x, y, Math.random() * 5 + 5, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        function launchFirework() {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * (canvas.height / 2);
-            drawFirework(x, y);
-            setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 500);
-        }
-        setInterval(launchFirework, 1000);
-    </script>
+      });
+
+      ctx.globalAlpha = 1; // возвращаем прозрачность для следующего кадра
+    }
+
+    // Запускаем цикл анимации
+    animate();
+
+    // Каждые 800мс создаём новый залп
+    setInterval(createFirework, 800);
+  </script>
 </body>
 </html>
