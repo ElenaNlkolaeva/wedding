@@ -38,8 +38,19 @@
             font-size: 28px;
             margin-top: 30px;
             transition: 0.3s;
+            cursor: pointer;
         }
         .btn:hover { background: #6B8E23; }
+        .schedule {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            border: 2px solid #8FBC8F;
+            font-size: 24px;
+            text-align: left;
+        }
     </style>
     <script>
         function getGuestName() {
@@ -57,6 +68,15 @@
             
             document.getElementById('guest-name').textContent = `${prefix} ${guestName},`;
         }
+        
+        function toggleSchedule() {
+            const schedule = document.getElementById('schedule');
+            if (schedule.style.display === 'none' || schedule.style.display === '') {
+                schedule.style.display = 'block';
+            } else {
+                schedule.style.display = 'none';
+            }
+        }
     </script>
 </head>
 <body onload="getGuestName()">
@@ -65,10 +85,16 @@
         <p><strong id="guest-name">Дорогие гости</strong></p>
         <p>С огромной радостью приглашаем вас на нашу свадьбу!</p>
         <p><strong>Дата:</strong> 8 августа 2025 года</p>
-        <p><strong>Время:</strong> 11:11</p>
         <p><strong>Место:</strong> Москва, Красная площадь</p>
         <p>Мы будем счастливы, если вы разделите этот важный день с нами!</p>
         <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn">Открыть локацию</a>
+        <br>
+        <button class="btn" onclick="toggleSchedule()">Программа мероприятия</button>
+        <div id="schedule" class="schedule">
+            <p><strong>14:30</strong> - сбор гостей у ЗАГСа</p>
+            <p><strong>15:00</strong> - регистрация</p>
+            <p><strong>15:15 - 16:00</strong> - праздничный фуршет</p>
+        </div>
         <p>С любовью, Иван и Ольга ❤️</p>
     </div>
 </body>
