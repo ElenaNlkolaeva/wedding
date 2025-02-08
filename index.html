@@ -7,42 +7,38 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Kurale&display=swap');
 
-    /* Сброс размеров и боксовая модель */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    /* Стили для HTML, BODY */
     html, body {
       width: 100%;
       height: 100%;
-      overflow-x: hidden; /* Прячем горизонтальную прокрутку, если что-то может «вылазить» */
+      /* Можно попробовать закомментировать overflow-x, если вдруг возникает смещение */
+      /* overflow-x: hidden; */
       text-align: center;
       font-family: 'Kurale', serif;
       color: #2F4F2F;
-      /* Фон */
-      background-image: url('background-flowers-1.jpg'); /* Проверьте, что файл действительно так называется */
+      background-image: url('background-flowers-1.jpg');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed; /* Можно убрать, если на мобильных будет глючить */
+      background-attachment: fixed;
     }
 
-    /* Контейнер приглашения */
     .container {
-      background: rgba(255, 255, 255, 0.9); /* чуть прозрачнее, чтобы сквозь неё был виден фейерверк */
+      background: rgba(255, 255, 255, 0.9);
       padding: 40px;
       border-radius: 20px;
-      max-width: 700px;       /* Максимальная ширина (px) */
-      width: 90%;            /* Процентная ширина (адаптивная) */
-      margin: 60px auto;     /* Отступы сверху/снизу и выравнивание по центру */
+      max-width: 700px;
+      width: 90%;
+      margin: 60px auto;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       border: 4px solid #A2C4A6;
       position: relative;
     }
 
-    /* Медиазапрос: на экранах до 768px меняем размеры */
     @media (max-width: 768px) {
       .container {
         padding: 30px;
@@ -63,7 +59,7 @@
       }
     }
 
-    /* Заголовок */
+    /* Исправляем "съезжание" текста (Great Vibes) */
     h1 {
       color: #6B8E23;
       font-size: 64px;
@@ -71,16 +67,18 @@
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
       margin-top: 0;
       margin-bottom: 20px;
+      /* Добавлено */
+      display: inline-block;       /* учитываем реальную ширину */
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* Обычный текст */
     p {
       font-size: 28px;
       line-height: 1.6;
       margin: 20px 0;
     }
 
-    /* Кнопки */
     .btn {
       display: inline-block;
       padding: 16px 32px;
@@ -101,7 +99,6 @@
       transform: scale(1.05);
     }
 
-    /* Программа мероприятия */
     .schedule {
       display: none;
       margin-top: 20px;
@@ -114,7 +111,6 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    /* Канвас фейерверка */
     canvas {
       position: fixed;
       top: 0;
@@ -122,15 +118,14 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999; /* Чтобы канвас был поверх всего */
+      z-index: 9999;
     }
 
-    /* Стиль для блока обратного отсчёта */
     #countdown {
       font-size: 26px;
       margin-top: 40px;
       font-weight: bold;
-      color: #6B8E23; /* По желанию, любой другой */
+      color: #6B8E23;
     }
   </style>
 </head>
@@ -141,26 +136,24 @@
   <div class="container">
     <h1>Приглашение на свадьбу</h1>
 
-    <!-- Блок приветствия -->
     <p><strong id="guest-name"></strong></p>
-
-    <!-- 1-я фраза ("С огромной радостью...") -->
     <p id="invite-line-1"></p>
-
-    <!-- 2-я фраза ("Мы будем счастливы...") -->
     <p id="invite-line-2"></p>
 
-    <!-- Дата и место с переносами строки -->
+    <!-- Добавляем пункт "Время" -->
     <p>
       <strong>Дата:</strong><br>
       8 августа 2025 года
+    </p>
+    <p>
+      <strong>Время:</strong><br>
+      14:30
     </p>
     <p>
       <strong>Место:</strong><br>
       Москва, Красная площадь
     </p>
 
-    <!-- Ссылка на карту и кнопка "Программа мероприятия" -->
     <a href="https://yandex.ru/maps/?text=Москва,Красная+площадь" class="btn" target="_blank">Открыть локацию</a>
     <br>
     <button class="btn" onclick="toggleSchedule()">Программа мероприятия</button>
@@ -172,14 +165,11 @@
 
     <p>С любовью, Иван и Ольга ❤️</p>
 
-    <!-- Блок обратного отсчёта -->
     <p id="countdown"></p>
   </div>
 
+  <!-- Скрипты фейерверка, обратного отсчёта и т.д. -->
   <script>
-    // -----------------------------------------------
-    // Инициализация страницы
-    // -----------------------------------------------
     function initPage() {
       setGuestName();
       setCanvasSize();
@@ -187,25 +177,18 @@
       startCountdown();
     }
 
-    // -----------------------------------------------
-    // Меняем текст обращения и текст в приглашении
-    // -----------------------------------------------
     function setGuestName() {
       const params = new URLSearchParams(window.location.search);
       const guestRaw = params.get('guest') || 'гости';
       const isFamily = (params.get('family') || 'no') === 'yes';
-      const gender = params.get('gender') || 'male'; // если не передали, по умолчанию 'male'
+      const gender = params.get('gender') || 'male';
 
       const guestNameElem = document.getElementById('guest-name');
       let greetingText = '';
 
       if (isFamily) {
-        // Несколько гостей (семья)
-        // Восклицательный знак в конце
         greetingText = `Дорогие<br>${guestRaw}!`;
       } else {
-        // Один гость
-        // Учитываем пол
         if (gender === 'male') {
           greetingText = `Дорогой ${guestRaw},`;
         } else {
@@ -214,39 +197,28 @@
       }
       guestNameElem.innerHTML = greetingText;
 
-      // Настраиваем фразы "С огромной радостью..." и "Мы будем счастливы..."
       const line1 = document.getElementById('invite-line-1');
       const line2 = document.getElementById('invite-line-2');
 
       if (isFamily) {
-        // Семья => "вас", "вы"
         line1.textContent = 'С огромной радостью приглашаем вас на нашу свадьбу!';
         line2.textContent = 'Мы будем счастливы, если вы разделите этот важный день с нами!';
       } else {
-        // Один человек => "Вас" и "Вы"
         line1.textContent = 'С огромной радостью приглашаем Вас на нашу свадьбу!';
         line2.textContent = 'Мы будем счастливы, если Вы разделите этот важный день с нами!';
       }
     }
 
-    // -----------------------------------------------
-    // Показать/скрыть программу мероприятия
-    // -----------------------------------------------
     function toggleSchedule() {
       const schedule = document.getElementById('schedule');
       schedule.style.display =
         (schedule.style.display === 'none' || schedule.style.display === '')
-        ? 'block'
-        : 'none';
+          ? 'block'
+          : 'none';
     }
 
-    // -----------------------------------------------
-    // Обратный отсчёт до свадьбы (8 августа 2025)
-    // -----------------------------------------------
     function startCountdown() {
       const countdownElem = document.getElementById('countdown');
-
-      // Дата свадьбы (используем локальное время, можно скорректировать под ваш часовой пояс)
       const weddingDate = new Date('2025-08-08T00:00:00');
 
       function updateCountdown() {
@@ -254,29 +226,22 @@
         const diff = weddingDate - now;
 
         if (diff <= 0) {
-          // Если свадьба уже наступила или дата прошла
           countdownElem.textContent = 'Свадьба уже началась! Поздравляем!';
           return;
         }
 
-        // Вычисляем дни, часы, минуты, секунды
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((diff / (1000 * 60)) % 60);
         const seconds = Math.floor((diff / 1000) % 60);
 
-        // Отображаем
         countdownElem.textContent = `До свадьбы осталось: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
       }
 
-      // Запускаем сразу + обновляем каждую секунду
       updateCountdown();
       setInterval(updateCountdown, 1000);
     }
 
-    // -----------------------------------------------
-    // Фейерверк
-    // -----------------------------------------------
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
 
@@ -288,20 +253,16 @@
 
     let fireworks = [];
 
-    // Создаём залп
     function createFirework() {
-      // Случайная точка (верхняя половина экрана)
       const x = Math.random() * canvas.width;
       const y = Math.random() * (canvas.height / 2);
-
-      // Увеличим число частиц для большей интенсивности
-      const particleCount = 40 + Math.floor(Math.random() * 20); // 40..60
+      const particleCount = 40 + Math.floor(Math.random() * 20);
       const hue = Math.floor(Math.random() * 360);
 
       const newParticles = [];
       for (let i = 0; i < particleCount; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 5 + 2; // 2..7
+        const speed = Math.random() * 5 + 2;
         const dx = Math.cos(angle) * speed;
         const dy = Math.sin(angle) * speed;
 
@@ -318,7 +279,6 @@
       fireworks.push(newParticles);
     }
 
-    // Анимация фейерверка
     function animateFireworks() {
       requestAnimationFrame(animateFireworks);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -327,19 +287,15 @@
         particles.forEach((p) => {
           p.x += p.dx;
           p.y += p.dy;
-          // Лёгкая гравитация
           p.dy += 0.02;
-
-          p.alpha -= 1 / p.life; // убывание прозрачности
-
-          // Рисуем частицу
+          p.alpha -= 1 / p.life;
+          
           ctx.globalAlpha = p.alpha;
           ctx.fillStyle = p.color;
           ctx.beginPath();
           ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
           ctx.fill();
         });
-        // Удаляем "потухшие" частицы
         fireworks[index] = particles.filter((p) => p.alpha > 0);
         if (fireworks[index].length === 0) {
           fireworks.splice(index, 1);
@@ -348,7 +304,6 @@
       ctx.globalAlpha = 1;
     }
 
-    // Запускать новый залп каждые 500 мс
     setInterval(createFirework, 500);
   </script>
 </body>
